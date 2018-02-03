@@ -1,0 +1,32 @@
+﻿@model Authentication.Local.Controllers.Home.ProfileViewModel
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>User claims</h2>
+        <h3>@Model.Name</h3>
+        @if (Model.Claims.Any())
+        {
+            foreach (var claim in Model.Claims)
+             {
+                 <div class="panel panel-default">
+                     <div class="panel-heading">
+                         <h3 class="panel-title">@claim.Type</h3>
+                     </div>
+                     <div class="panel-body">
+                         @claim.Value
+                     </div>
+                 </div>
+            }
+        }
+        else
+        {
+            <div class="alert alert-danger">
+                <p>User has no claims.</p>
+            </div>
+        }
+    </div>
+</div>
+

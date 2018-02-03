@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "Logout";
+    var url = ViewBag.ReturnUrl;
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>Are you sure you want to logout?</h3>
+        <form a method="post" asp-action="Logout">
+            <button type="submit" class="btn btn-lg btn-danger">Yes</button>
+            <a asp-action="Cancel" asp-route-returnUrl="@url" class="btn btn-lg btn-warning">Cancel</a>
+        </form>
+    </div>
+</div>
+
