@@ -68,9 +68,9 @@
         {
             var properties = new AuthenticationProperties
             {
-                AllowRefresh = false,
-                IsPersistent = true,
-                ExpiresUtc = DateTimeOffset.UtcNow.AddSeconds(10)
+                //AllowRefresh = false,
+                //IsPersistent = true,
+                //ExpiresUtc = DateTimeOffset.UtcNow.AddSeconds(10)
             };
             var claims = new List<Claim>
             {
