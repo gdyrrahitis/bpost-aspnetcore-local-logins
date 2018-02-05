@@ -1,22 +1,28 @@
 ﻿namespace Authentication.Local.Services
 {
     using System;
-    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Models;
+    using Repositories;
 
     public class UserService : IUserService
     {
-        private readonly IDictionary<string, User> _users;
+        private readonly IUserRepository _repository;
 
-        public UserService(IDictionary<string, User> users) => _users = users;
+        public UserService(IUserRepository repository) => _repository = repository;
 
-        public Task<(bool, User)> ValidateUserCredentialsAsync(string username, string password)
+        public async Task<(bool, User)> ValidateUserCredentialsAsync(string username, string password)
         {
-            var isValid = _users.ContainsKey(username) && 
-                          string.Equals(_users[username].Password, password, StringComparison.Ordinal);
-            var result = (isValid, isValid ? _users[username] : null);
-            return Task.FromResult(result);
+            var user = await _repository.FindByUserName(username);
+            if (user != null && string.Equals(user.Password, password, StringComparison.Ordinal))
+            {
+                return (true, user);
+            }
+
+            return (false, null);
         }
+
+        public async Task<User> FindUserByUserName(string username) => 
+            await _repository.FindByUserName(username);
     }
 }

@@ -6,5 +6,6 @@
     public interface IUserService
     {
         Task<(bool, User)> ValidateUserCredentialsAsync(string username, string password);
+        Task<User> FindUserByUserName(string username);
     }
 }

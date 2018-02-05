@@ -66,23 +66,13 @@
 
         private async Task LoginAsync(User user)
         {
-            var properties = new AuthenticationProperties
-            {
-                //AllowRefresh = false,
-                //IsPersistent = true,
-                //ExpiresUtc = DateTimeOffset.UtcNow.AddSeconds(10)
-            };
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.GivenName, user.FirstName),
-                new Claim(ClaimTypes.Surname, user.LastName),
-                new Claim(ClaimTypes.DateOfBirth, user.DateOfBirth.ToString("o"), ClaimValueTypes.DateTime)
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             };
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var principal = new ClaimsPrincipal(identity);
-            await HttpContext.SignInAsync(principal, properties);
+            await HttpContext.SignInAsync(principal);
         }
 
         [Route("logout")]

@@ -1,2 +1,2 @@
-# ASP.NET Core 2.0 Cookie Authentication on local logins
-https://wp.me/p7uERY-85
+# ASP.NET Core 2.0 Authentication with local logins - Implementing claims transformation
+https://wp.me/p7uERY-aP
