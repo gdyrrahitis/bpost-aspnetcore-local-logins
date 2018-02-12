@@ -23,7 +23,8 @@
         {
             if (IsEnabled(logLevel))
             {
-                var error = string.Format("{0} -- {1}", exception.Message, exception.StackTrace);
+                var error = exception != null ? 
+                    string.Format("{0} -- {1}", exception.Message, exception.StackTrace) : null;
                 var @event = new EventLog
                 {
                     Date = DateTime.UtcNow,
