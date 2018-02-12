@@ -27,7 +27,8 @@ CREATE TABLE [dbo].[User](
 	[FirstName] [varchar](200) NOT NULL,
 	[Surname] [varchar](max) NOT NULL,
 	[Email] varchar(255) NOT NULL,
-	[DateOfBirth] datetime NOT NULL
+	[DateOfBirth] datetime NOT NULL,
+	[UpdatedOn] datetime NOT NULL
 	PRIMARY KEY(Id)
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 

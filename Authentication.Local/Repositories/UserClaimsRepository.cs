@@ -14,9 +14,9 @@
             _commander = commander;
         }
 
-        public async Task<IEnumerable<UserClaims>> FindClaimsByUserId(int id)
+        public async Task<IEnumerable<UserClaims>> FindClaimsByUsername(string username)
         {
-            return await _commander.QueryAsync<UserClaims>(new { userId = id });
+            return await _commander.QueryAsync<UserClaims>(new { username });
         }
     }
 }

@@ -11,7 +11,7 @@
 
         public UserClaimsService(IUserClaimsRepository repository) => _repository = repository;
 
-        public async Task<IEnumerable<UserClaims>> FindUserClaimsByUserId(int id) => 
-            await _repository.FindClaimsByUserId(id);
+        public async Task<IEnumerable<UserClaims>> FindUserClaimsByUsername(string userName) => 
+            await _repository.FindClaimsByUsername(userName);
     }
 }
