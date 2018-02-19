@@ -1,0 +1,22 @@
+﻿@using System.Security.Claims
+@{
+    ViewData["Title"] = "Domain restricted page";
+}
+
+<div class="row">
+    <div class="col-md-7">
+        <h3>Allowed domains</h3>
+        <ul class="list-group">
+            @foreach (var domain in ViewBag.DomainRestriction)
+            {
+                <li class="list-group-item">@domain</li>
+            }
+        </ul>
+    </div>
+    <div class="col-md-5">
+        <div class="alert alert-success">
+            User <strong>@User.Identity.Name</strong> is allowed with email address <strong>@User.FindFirst(ClaimTypes.Email).Value</strong>
+        </div>
+    </div>
+</div>
+

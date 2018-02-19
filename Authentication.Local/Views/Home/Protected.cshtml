@@ -1,0 +1,14 @@
+﻿@using System.Security.Claims
+@{
+    ViewData["Title"] = "Protected";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Restricted page to users under @ViewBag.AgeRestriction</h2>
+        <div class="well well-lg">
+            User @User.Identity.Name is eligible as D.O.B. is @DateTime.Parse(User.FindFirst(ClaimTypes.DateOfBirth).Value).ToString("d")
+        </div>
+    </div>
+</div>
+

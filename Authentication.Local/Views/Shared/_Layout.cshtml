@@ -1,4 +1,8 @@
-﻿@using Microsoft.AspNetCore.Http.Extensions
+﻿@using Authentication.Local.Infrastructure.Constants
+@using Microsoft.AspNetCore.Http.Extensions
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,14 +38,16 @@
                     <ul class="nav navbar-nav navbar-left">
                         <li><a asp-controller="Home" asp-action="Index">Home</a></li>
                         <li><a asp-controller="Home" asp-action="Profile">Profile</a></li>
+                        <li><a asp-controller="Home" asp-action="Protected">Adult restricted page</a></li>
+                        @if ((await AuthorizationService.AuthorizeAsync(User, Policies.DomainRestriction)).Succeeded)
+                        {
+                            <li><a asp-controller="Home" asp-action="Domain">Domain specific page</a></li>
+                        }
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li>
-                                @*<form class="form-logout" method="post" asp-controller="Auth" asp-action="Logout">
-                                    <button class="btn btn-default btn-sm" type="submit">Logout</button>
-                                </form>*@
                                 <a asp-controller="Auth" asp-route-returnUrl="@Context.Request.GetEncodedPathAndQuery()" asp-action="Logout">Logout</a>
                             </li>
 

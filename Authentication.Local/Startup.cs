@@ -2,8 +2,11 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Infrastructure.Constants;
+    using Infrastructure.Security;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authentication.Cookies;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -26,7 +29,6 @@
 
         public void ConfigureServices(IServiceCollection services)
         {
-
             var appSetting = Configuration.GetSection("Settings").Get<AppSettings>();
             var settings = new DatabaseCommanderSettings(Namespaces(appSetting), Connections(appSetting));
             services.AddSingleton<IDatabaseCommanderSettings>(settings);
@@ -52,7 +54,24 @@
                 {
                     options.LoginPath = "/auth/login";
                     options.LogoutPath = "/auth/logout";
+                    options.AccessDeniedPath = "/denied";
                 });
+
+            services.AddAuthorization(options =>
+            {
+                options.DefaultPolicy =
+                    new AuthorizationPolicyBuilder(CookieAuthenticationDefaults.AuthenticationScheme)
+                        .RequireAuthenticatedUser()
+                        .Build();
+
+                var minimumAge = Configuration.GetSection("Policies:Age").Get<int>();
+                options.AddPolicy(Policies.AgeRestriction, policy => 
+                    policy.AddRequirements(new AgeRestrictionRequirement(minimumAge)));
+
+                var domains = Configuration.GetSection("Policies:Domains").Get<List<string>>();
+                options.AddPolicy(Policies.DomainRestriction, policy => 
+                    policy.AddRequirements(new DomainRestrictionRequirement(domains)));
+            });
         }
 
         private static IEnumerable<ConnectionStringSetting> Connections(AppSettings appSetting)
