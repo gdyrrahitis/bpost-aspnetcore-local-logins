@@ -1,2 +1,2 @@
-# ASP.NET Core 2.0 Authentication with local logins - Implementing claims transformation
-https://wp.me/p7uERY-aP
+# ASP.NET Core 2.0 Authentication with local logins - Implementing custom authorization policies
+https://wp.me/p7uERY-aV
