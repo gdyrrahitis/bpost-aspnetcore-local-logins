@@ -5,6 +5,6 @@
 
     public interface IUserRepository
     {
-        Task<User> FindByUserName(string username);
+        Task<User> FindByUserNameAsync(string username);
     }
 }

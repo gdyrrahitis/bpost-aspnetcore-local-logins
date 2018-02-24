@@ -13,7 +13,7 @@
 
         public async Task<(bool, User)> ValidateUserCredentialsAsync(string username, string password)
         {
-            var user = await _repository.FindByUserName(username);
+            var user = await _repository.FindByUserNameAsync(username);
             if (user != null && string.Equals(user.Password, password, StringComparison.Ordinal))
             {
                 return (true, user);
@@ -22,7 +22,7 @@
             return (false, null);
         }
 
-        public async Task<User> FindUserByUserName(string username) => 
-            await _repository.FindByUserName(username);
+        public async Task<User> FindUserByUserNameAsync(string username) => 
+            await _repository.FindByUserNameAsync(username);
     }
 }

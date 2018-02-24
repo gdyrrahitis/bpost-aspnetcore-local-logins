@@ -6,6 +6,6 @@
 
     public interface IUserClaimsService
     {
-        Task<IEnumerable<UserClaims>> FindUserClaimsByUserId(int id);
+        Task<IEnumerable<UserClaims>> FindUserClaimsByUserNameAsync(string userName);
     }
 }

@@ -14,7 +14,7 @@
             _commander = commander;
         }
 
-        public async Task<User> FindByUserName(string username)
+        public async Task<User> FindByUserNameAsync(string username)
         {
             return (await _commander.QueryAsync<User>(new { username })).FirstOrDefault();
         }

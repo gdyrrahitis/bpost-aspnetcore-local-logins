@@ -3,11 +3,13 @@
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
+    using Authentication.Local.Models;
     using Microsoft.AspNetCore.Authentication;
+
     public class ProfileClaimsTransformationService: IClaimsTransformation
     {
         private readonly IUserClaimsService _service;
-        private const string Issuer = "Claims.Transformation.Service";
+        private const string Issuer = "Claims.Transformation.Service.Authority";
 
         public ProfileClaimsTransformationService(IUserClaimsService service) => _service = service;
 
@@ -25,17 +27,22 @@
                 return principal;
             }
 
-            var userClaims = (await _service.FindUserClaimsByUserId(int.Parse(identifier.Value))).ToList();
+            var userClaims = (await _service.FindUserClaimsByUserNameAsync(identifier.Value)).ToList();
             if (!userClaims.Any())
             {
                 return principal;
             }
 
-            var claims = userClaims.Select(c => new Claim(c.Type, c.Value, c.ValueType, c.Issuer)).ToList();
-            claims.Add(identifier);
+            var claims = userClaims.Select(c => new Claim(c.Type, c.Value, c.ValueType, GetIssuer(c))).ToList();
+            claims.AddRange(identity.Claims);
             var claimsIdentity = new ClaimsIdentity(claims, identity.AuthenticationType);
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
             return claimsPrincipal;
+
+            string GetIssuer(UserClaims claim)
+            {
+                return string.IsNullOrWhiteSpace(claim.Issuer) ? Issuer : claim.Issuer;
+            }
         }
     }
 }
