@@ -18,7 +18,7 @@
             var identity = principal.Identities.FirstOrDefault();
             if (identity == null)
             {
-                return await Task.FromResult<ClaimsPrincipal>(null);
+                return null;
             }
 
             var identifier = identity.FindFirst(ClaimTypes.NameIdentifier);
