@@ -9,10 +9,7 @@
     {
         private readonly ICommander<UserClaimsRepository> _commander;
 
-        public UserClaimsRepository(ICommander<UserClaimsRepository> commander)
-        {
-            _commander = commander;
-        }
+        public UserClaimsRepository(ICommander<UserClaimsRepository> commander) => _commander = commander;
 
         public async Task<IEnumerable<UserClaims>> FindClaimsByUserNameAsync(string userName) =>
             await _commander.QueryAsync<UserClaims>(new { userName });
