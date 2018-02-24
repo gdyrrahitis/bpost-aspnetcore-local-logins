@@ -32,16 +32,29 @@
             var appSetting = Configuration.GetSection("Settings").Get<AppSettings>();
             var settings = new DatabaseCommanderSettings(Namespaces(appSetting), Connections(appSetting));
             services.AddSingleton<IDatabaseCommanderSettings>(settings);
-            services.AddTransient<IDatabaseConnector, SqlServerDatabaseConnector>();
-            services.AddTransient<IDatabaseCommandReader, DatabaseCommandReader>();
-            services.AddTransient(typeof(ICommander<>), typeof(DatabaseCommander<>));
+            services.AddScoped<IDatabaseConnector, SqlServerDatabaseConnector>();
+            services.AddScoped<IDatabaseCommandReader, DatabaseCommandReader>();
+            services.AddScoped(typeof(ICommander<>), typeof(DatabaseCommander<>));
 
             services.AddSingleton(Configuration);
-            services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<IUserClaimsRepository, UserClaimsRepository>();
-            services.AddTransient<IUserService, UserService>();
-            services.AddTransient<IUserClaimsService, UserClaimsService>();
-            services.AddTransient<IClaimsTransformation, ProfileClaimsTransformationService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserClaimsRepository, UserClaimsRepository>();
+            services.AddScoped<IAttendeeRepository, AttendeeRepository>();
+            services.AddScoped<IMeetupRepository, MeetupRepository>();
+            services.AddScoped<IMemberRepository, MemberRepository>();
+
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserClaimsService, UserClaimsService>();
+            services.AddScoped<IAttendeeService, AttendeeService>();
+            services.AddScoped<IMeetupService, MeetupService>();
+            services.AddScoped<IMemberService, MemberService>();
+            services.AddScoped<IClaimsTransformation, ProfileClaimsTransformationService>();
+
+            services.AddTransient<IAuthorizationHandler, MeetupCoFounderHandler>();
+            services.AddTransient<IAuthorizationHandler, MeetupFounderHandler>();
+            services.AddTransient<IAuthorizationHandler, MeetupMemberHandler>();
+            services.AddTransient<IAuthorizationHandler, MeetupRsvpHandler>();
+
             services.AddMvc();
 
             services.AddAuthentication(options =>
@@ -71,6 +84,9 @@
                 var domains = Configuration.GetSection("Policies:Domains").Get<List<string>>();
                 options.AddPolicy(Policies.DomainRestriction, policy => 
                     policy.AddRequirements(new DomainRestrictionRequirement(domains)));
+
+                options.AddPolicy(Policies.MeetupRestriction, policy => 
+                    policy.AddRequirements(new MeetupAccessRequirement()));
             });
         }
 

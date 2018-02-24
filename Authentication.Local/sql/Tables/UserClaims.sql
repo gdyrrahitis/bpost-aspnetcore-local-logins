@@ -1,10 +1,10 @@
-if(exists (SELECT * 
+IF(EXISTS (SELECT * 
                  FROM INFORMATION_SCHEMA.TABLES 
                  WHERE TABLE_SCHEMA = 'dbo' 
                  AND  TABLE_NAME = 'UserClaims'))
-begin
-	drop table [dbo].[UserClaims]
-end
+BEGIN
+	DROP TABLE [dbo].[UserClaims]
+END
 
 SET ANSI_NULLS ON
 GO
@@ -16,15 +16,12 @@ SET ANSI_PADDING ON
 GO
 
 CREATE TABLE [dbo].[UserClaims](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[UserId] [int] NOT NULL,
-	[Type] [varchar](200) NOT NULL,
-	[Value] [varchar](max) NOT NULL,
-	[ValueType] varchar(255) NULL default('http://www.w3.org/2001/XMLSchema#string'),
-	[Issuer] varchar(255) NULL default('Custom Authority')
-	PRIMARY KEY(Id),
-	CONSTRAINT FK_UserClaims FOREIGN KEY(UserId)
-	REFERENCES [User]([Id]) ON DELETE CASCADE
+	[Id] INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	[UserId] INT NOT NULL CONSTRAINT FK_UserClaims FOREIGN KEY REFERENCES [User]([Id]) ON DELETE CASCADE,
+	[Type] VARCHAR(200) NOT NULL,
+	[Value] VARCHAR(max) NOT NULL,
+	[ValueType] VARCHAR(255) NULL DEFAULT('http://www.w3.org/2001/XMLSchema#string'),
+	[Issuer] VARCHAR(255) NULL DEFAULT('Custom Authority')
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO

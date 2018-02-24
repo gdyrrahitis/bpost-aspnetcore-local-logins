@@ -19,7 +19,7 @@
                 return await Task.FromResult<ClaimsPrincipal>(null);
             }
 
-            var identifier = identity.FindFirst(ClaimTypes.NameIdentifier);
+            var identifier = identity.FindFirst("Id");
             if (identifier == null)
             {
                 return principal;
@@ -32,7 +32,7 @@
             }
 
             var claims = userClaims.Select(c => new Claim(c.Type, c.Value, c.ValueType, c.Issuer)).ToList();
-            claims.Add(identifier);
+            claims.AddRange(identity.Claims);
             var claimsIdentity = new ClaimsIdentity(claims, identity.AuthenticationType);
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
             return claimsPrincipal;

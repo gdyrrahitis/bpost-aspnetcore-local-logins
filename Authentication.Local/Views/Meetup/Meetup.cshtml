@@ -1,0 +1,37 @@
+﻿@model Authentication.Local.Controllers.Meetup.MeetupViewModel
+@using Authentication.Local.Infrastructure.Constants
+
+@{
+    ViewData["Title"] = "Meetup";
+}
+@if ((await AuthorizationService.AuthorizeAsync(User, Policies.MeetupRestriction)).Succeeded)
+{
+    <div class="row">
+
+        <div class="col-md-12">
+            <h3>Meetup founders section</h3>
+            <div class="well well-lg">
+                <p>Hush hush stuff...</p>
+                <button class="btn btn-primary">Configure meetup</button>
+            </div>
+        </div>
+    </div>
+}
+<div class="row">
+    <div class="col-md-12">
+        <h2>Attending at @Model.Meetup</h2>
+        <ul class="list-group">
+            @foreach (var attendee in Model.Attendees)
+            {
+                <li class="list-group-item">
+                    @if (string.Equals(attendee.Role, Roles.CoFounder, StringComparison.InvariantCultureIgnoreCase)
+          || string.Equals(attendee.Role, Roles.Founder, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        <span class="badge">(@attendee.Role)</span>
+                    }
+                    @attendee.UserName
+                </li>
+            }
+        </ul>
+    </div>
+</div>

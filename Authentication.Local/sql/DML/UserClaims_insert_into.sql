@@ -1,21 +1,14 @@
 begin try
 	begin transaction
 		insert into [dbo].[UserClaims] ([UserId], [Type], [Value], [ValueType])
-		values  (1,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier', 'johndoe', 'http://www.w3.org/2001/XMLSchema#string'),
-				(1,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/dateofbirth', '2000-01-05', 'http://www.w3.org/2001/XMLSchema#date'),
-				(1,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress', 'john@doe.com', 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'),
-				(1,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name', 'John', 'http://www.w3.org/2001/XMLSchema#string'),
-				(1,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname', 'Doe', 'http://www.w3.org/2001/XMLSchema#string'),
-				(1,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/gender', 'Male', 'http://www.w3.org/2001/XMLSchema#string'),
+		values  (1,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/gender', 'Male', 'http://www.w3.org/2001/XMLSchema#string'),
 				(1,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/country', 'USA', 'http://www.w3.org/2001/XMLSchema#string'),
 
-				(2,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier', 'janedoe', 'http://www.w3.org/2001/XMLSchema#string'),
-				(2,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/dateofbirth', '2007-03-06', 'http://www.w3.org/2001/XMLSchema#date'),
-				(2,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress', 'jane.doe@email.com', 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'),
-				(2,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name', 'Jane', 'http://www.w3.org/2001/XMLSchema#string'),
-				(2,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname', 'Doe', 'http://www.w3.org/2001/XMLSchema#string'),
 				(2,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/gender', 'Female', 'http://www.w3.org/2001/XMLSchema#string'),
-				(2,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/country', 'USA', 'http://www.w3.org/2001/XMLSchema#string');
+				(2,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/country', 'USA', 'http://www.w3.org/2001/XMLSchema#string'),
+				
+				(3,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/gender', 'Male', 'http://www.w3.org/2001/XMLSchema#string'),
+				(3,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/country', 'Greece', 'http://www.w3.org/2001/XMLSchema#string');
 	commit transaction;
 end try
 begin catch

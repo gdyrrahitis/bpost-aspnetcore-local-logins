@@ -1,15 +1,15 @@
-if(OBJECT_ID('FK_UserClaims', 'F') IS NOT NULL)
-begin
-	alter table [dbo].[UserClaims] drop constraint FK_UserClaims;
-end
+IF(OBJECT_ID('FK_UserClaims', 'F') IS NOT NULL)
+BEGIN
+	ALTER TABLE [dbo].[UserClaims] DROP CONSTRAINT FK_UserClaims;
+END
 
-if(exists (SELECT * 
+IF(EXISTS (SELECT * 
                  FROM INFORMATION_SCHEMA.TABLES 
                  WHERE TABLE_SCHEMA = 'dbo' 
                  AND  TABLE_NAME = 'User'))
-begin
-	drop table [dbo].[User]
-end
+BEGIN
+	DROP TABLE [dbo].[User]
+END
 
 SET ANSI_NULLS ON
 GO
@@ -21,14 +21,13 @@ SET ANSI_PADDING ON
 GO
 
 CREATE TABLE [dbo].[User](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[Username] varchar(255) UNIQUE NOT NULL,
-	[Password] varchar(max) NOT NULL,
-	[FirstName] [varchar](200) NOT NULL,
-	[Surname] [varchar](max) NOT NULL,
-	[Email] varchar(255) NOT NULL,
-	[DateOfBirth] datetime NOT NULL
-	PRIMARY KEY(Id)
+	[Id] INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	[Username] VARCHAR(255) UNIQUE NOT NULL,
+	[Password] VARCHAR(max) NOT NULL,
+	[FirstName] VARCHAR(200) NOT NULL,
+	[Surname] VARCHAR(max) NOT NULL,
+	[Email] VARCHAR(255) NOT NULL,
+	[DateOfBirth] DATETIME NOT NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO

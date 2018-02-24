@@ -4,5 +4,6 @@
     {
         public const string AgeRestriction = "AgeRestriction";
         public const string DomainRestriction = "DomainRestriction";
+        public const string MeetupRestriction = "MeetupRestriction";
     }
 }

@@ -1,0 +1,38 @@
+IF(OBJECT_ID('FK_MeetupMembersId', 'F') IS NOT NULL)
+BEGIN
+	ALTER TABLE [dbo].[MeetupMembersRsvp] DROP CONSTRAINT FK_MeetupMembersId;
+END
+
+IF(OBJECT_ID('FK_UserRoles', 'F') IS NOT NULL)
+BEGIN
+	ALTER TABLE [dbo].[Roles] DROP CONSTRAINT FK_UserRoles;
+END
+
+IF(EXISTS (SELECT * 
+                 FROM INFORMATION_SCHEMA.TABLES 
+                 WHERE TABLE_SCHEMA = 'dbo' 
+                 AND  TABLE_NAME = 'Members'))
+BEGIN
+	DROP TABLE [dbo].[Members]
+END
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[Members](
+	[Id] INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	[UserName] VARCHAR(255) UNIQUE NOT NULL
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+

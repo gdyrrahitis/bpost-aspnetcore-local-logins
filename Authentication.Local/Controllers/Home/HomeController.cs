@@ -14,10 +14,7 @@
 
         public HomeController(IConfiguration configuration) => _configuration = configuration;
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        public IActionResult Index() => View();
 
         [Authorize]
         [Route("profile")]
@@ -49,14 +46,9 @@
         }
 
         [Route("denied")]
-        public IActionResult Denied()
-        {
-            return View();
-        }
+        public IActionResult Denied() => View();
 
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        public IActionResult Error() =>
+            View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }
