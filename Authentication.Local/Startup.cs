@@ -46,7 +46,7 @@
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IUserClaimsService, UserClaimsService>();
             services.AddTransient<IClaimsTransformation, ProfileClaimsTransformationService>();
-            services.AddTransient<CookieEvents>();
+            services.AddScoped<CookieEvents>();
             services.AddMvc();
 
             services.AddAuthentication(options =>
