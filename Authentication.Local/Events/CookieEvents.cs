@@ -1,10 +1,7 @@
 ﻿namespace Authentication.Local.Events
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Security.Claims;
-    using System.Security.Principal;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Http;
@@ -37,8 +34,7 @@
 
         public override async Task ValidatePrincipal(CookieValidatePrincipalContext context)
         {
-            if (!context.Principal.Identity.IsAuthenticated
-                || string.IsNullOrWhiteSpace(context.Principal.Identity.Name))
+            if (UserIsNotAuthenticatedOrNameClaimIsEmpty(context))
                 return;
 
             try
@@ -53,30 +49,7 @@
                         return;
                     }
 
-                    UpdateClaims(context.Principal, 
-                        userName => !string.Equals(userName, user.UserName),
-                        ClaimTypes.NameIdentifier,
-                        user.UserName);
-
-                    UpdateClaims(context.Principal,
-                        email => !string.Equals(email, user.Email),
-                        ClaimTypes.Email,
-                        user.Email);
-
-                    UpdateClaims(context.Principal,
-                        name => !string.Equals(name, user.FirstName),
-                        ClaimTypes.GivenName,
-                        user.FirstName);
-
-                    UpdateClaims(context.Principal,
-                        surname => !string.Equals(surname, user.Surname),
-                        ClaimTypes.Surname,
-                        user.Surname);
-
-                    UpdateClaims(context.Principal,
-                        dob => !DateTime.Equals(DateTime.Parse(dob), user.DateOfBirth),
-                        ClaimTypes.DateOfBirth,
-                        user.DateOfBirth.ToString("O"));
+                    UpdateUserClaimsIfChanged(context, user);
 
                     var claims = context.Principal.Claims;
                     var identity = new ClaimsIdentity(claims, context.Principal.Identity.AuthenticationType);
@@ -95,19 +68,79 @@
             }
         }
 
-        private static void UpdateClaims(
-            ClaimsPrincipal principal,
-            Func<string, bool> condition, 
-            string claimType, 
-            string claimValue)
+        private static void UpdateUserClaimsIfChanged(CookieValidatePrincipalContext context, User user)
         {
-            var claim = principal.FindFirst(claimType);
+            UpdateClaimIfChanged(userName => !string.Equals(userName, user.UserName),
+                options =>
+                {
+                    options.ClaimsPrincipal = context.Principal;
+                    options.ClaimType = ClaimTypes.NameIdentifier;
+                    options.ClaimValue = user.UserName;
+                });
+
+            UpdateClaimIfChanged(email => !string.Equals(email, user.Email),
+                options =>
+                {
+                    options.ClaimsPrincipal = context.Principal;
+                    options.ClaimType = ClaimTypes.Email;
+                    options.ClaimValue = user.Email;
+                });
+
+            UpdateClaimIfChanged(name => !string.Equals(name, user.FirstName),
+                options =>
+                {
+                    options.ClaimsPrincipal = context.Principal;
+                    options.ClaimType = ClaimTypes.GivenName;
+                    options.ClaimValue = user.FirstName;
+                });
+
+            UpdateClaimIfChanged(surname => !string.Equals(surname, user.Surname),
+                options =>
+                {
+                    options.ClaimsPrincipal = context.Principal;
+                    options.ClaimType = ClaimTypes.Surname;
+                    options.ClaimValue = user.Surname;
+                });
+
+            UpdateClaimIfChanged(dob => !DateTime.Equals(DateTime.Parse(dob), user.DateOfBirth),
+                options =>
+                {
+                    options.ClaimsPrincipal = context.Principal;
+                    options.ClaimType = ClaimTypes.DateOfBirth;
+                    options.ClaimValue = user.DateOfBirth.ToString("O");
+                });
+        }
+
+        private static bool UserIsNotAuthenticatedOrNameClaimIsEmpty(CookieValidatePrincipalContext context) =>
+            !context.Principal.Identity.IsAuthenticated
+            || string.IsNullOrWhiteSpace(context.Principal.Identity.Name);
+
+        private static void UpdateClaimIfChanged(
+            Func<string, bool> condition,
+            Action<Options> optionsAction)
+        {
+            var options = SetupOptions();
+            var claim = options.ClaimsPrincipal.FindFirst(options.ClaimType);
             if (claim != null && condition(claim.Value))
             {
-                var identity = principal.Identity as ClaimsIdentity;
+                var identity = options.ClaimsPrincipal.Identity as ClaimsIdentity;
                 identity?.RemoveClaim(claim);
-                identity?.AddClaim(new Claim(claimType, claimValue, claim.ValueType, claim.Issuer));
+                identity?.AddClaim(new Claim(options.ClaimType, options.ClaimValue, claim.ValueType, claim.Issuer));
             }
+
+            Options SetupOptions()
+            {
+                var opt = new Options();
+                optionsAction(opt);
+                return opt;
+            }
+        }
+
+        private class Options
+        {
+            public ClaimsPrincipal ClaimsPrincipal { get; set; }
+            public string ClaimType { get; set; }
+            public string ClaimValue { get; set; }
         }
     }
 }

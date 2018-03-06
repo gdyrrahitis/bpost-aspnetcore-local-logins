@@ -9,14 +9,10 @@
     {
         private readonly ICommander<UserRepository> _commander;
 
-        public UserRepository(ICommander<UserRepository> commander)
-        {
+        public UserRepository(ICommander<UserRepository> commander) => 
             _commander = commander;
-        }
 
-        public async Task<User> FindByUserName(string username)
-        {
-            return (await _commander.QueryAsync<User>(new { username })).FirstOrDefault();
-        }
+        public async Task<User> FindByUserName(string username) =>
+            (await _commander.QueryAsync<User>(new { username })).FirstOrDefault();
     }
 }

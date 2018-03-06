@@ -10,10 +10,6 @@
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration((context, builder) =>
-                {
-                    builder.AddXmlFile("log4net.xml", optional: true);
-                })
                 .UseStartup<Startup>()
                 .Build();
     }
