@@ -1,13 +1,3 @@
-IF(OBJECT_ID('FK_MeetupMembersId', 'F') IS NOT NULL)
-BEGIN
-	ALTER TABLE [dbo].[MeetupMembersRsvp] DROP CONSTRAINT FK_MeetupMembersId;
-END
-
-IF(OBJECT_ID('FK_UserRoles', 'F') IS NOT NULL)
-BEGIN
-	ALTER TABLE [dbo].[Roles] DROP CONSTRAINT FK_UserRoles;
-END
-
 IF(EXISTS (SELECT * 
                  FROM INFORMATION_SCHEMA.TABLES 
                  WHERE TABLE_SCHEMA = 'dbo' 
@@ -27,7 +17,9 @@ GO
 
 CREATE TABLE [dbo].[Members](
 	[Id] INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	[UserName] VARCHAR(255) UNIQUE NOT NULL
+	[UserName] VARCHAR(255) UNIQUE NOT NULL,
+	[Role] VARCHAR(255) UNIQUE NOT NULL,
+	[IsFrozen] BIT NOT NULL
 ) ON [PRIMARY]
 
 GO

@@ -1,0 +1,30 @@
+﻿@model Authentication.Local.Controllers.Blog.BlogViewModel
+@using Authentication.Local.Infrastructure.Constants
+
+@{
+    ViewData["Title"] = "Blog";
+}
+@if ((await AuthorizationService.AuthorizeAsync(User, Policies.BlogAccessRestriction)).Succeeded)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Admins section</h3>
+            <div class="well well-lg">
+                <p>Hush hush stuff...</p>
+                <a asp-action="AdminPanel" asp-controller="Blog" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-cog"></span>&nbsp;Configure blog
+                </a>
+            </div>
+        </div>
+    </div>
+}
+@foreach (var blog in Model.Blogs)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <h2>
+                <a href="#">@blog</a>
+            </h2>
+        </div>
+    </div>
+}

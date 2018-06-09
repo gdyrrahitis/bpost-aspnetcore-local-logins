@@ -37,7 +37,7 @@
                         <li><a asp-controller="Home" asp-action="Index">Home</a></li>
                         <li><a asp-controller="Home" asp-action="Profile">Profile</a></li>
                         <li><a asp-controller="Home" asp-action="Protected">Adult restricted page</a></li>
-                        <li><a asp-controller="Meetup" asp-action="Meetups">View meetups</a></li>
+                        <li><a asp-controller="Blog" asp-action="Index">Blog</a></li>
                         @if ((await AuthorizationService.AuthorizeAsync(User, Policies.DomainRestriction)).Succeeded)
                         {
                             <li><a asp-controller="Home" asp-action="Domain">Domain specific page</a></li>

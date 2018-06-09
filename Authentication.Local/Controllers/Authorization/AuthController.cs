@@ -12,7 +12,7 @@
     using Services;
 
     [Route("auth")]
-    public class AuthController: Controller
+    public class AuthController : Controller
     {
         private readonly IUserService _userService;
         private readonly IConfiguration _configuration;
@@ -70,10 +70,10 @@
             {
                 new Claim(ClaimTypes.NameIdentifier, user.UserName),
                 new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.Surname, user.LastName),
-                new Claim(ClaimTypes.DateOfBirth, user.DateOfBirth.ToString("O"), ClaimTypes.DateOfBirth),
+                new Claim(ClaimTypes.Surname, user.Surname),
+                new Claim(ClaimTypes.DateOfBirth, user.DateOfBirth.ToString("O"), ClaimValueTypes.DateTime),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.GivenName, $"{user.Name} {user.LastName}"),
+                new Claim(ClaimTypes.GivenName, $"{user.FirstName} {user.Surname}"),
                 new Claim("Id", user.Id.ToString())
             };
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -94,7 +94,6 @@
             return View();
         }
 
-        
         public IActionResult Cancel(string returnUrl)
         {
             if (IsUrlValid(returnUrl))

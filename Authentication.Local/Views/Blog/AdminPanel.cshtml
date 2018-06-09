@@ -1,0 +1,26 @@
+﻿@model Authentication.Local.Controllers.Blog.AdminPanelViewModel
+@{
+    ViewData["Title"] = "Admin Panel";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Members</h2>
+        <h4>Logged in as @User.Identity.Name</h4>
+        <ul class="list-group">
+            @foreach (var member in Model.Members)
+            {
+                var disabled = member.IsFrozen ? "disabled" : "";
+                <li class="list-group-item @disabled">
+                    <span class="badge">(@member.Role)</span>
+                    @member.UserName
+                    @if (member.UserName == Model.Current.UserName) { 
+                        <span class="label label-danger">(c)</span>
+                    }
+                </li>
+            }
+        </ul>
+        <small class="text-muted">Greyed-out member accounts are disabled.</small>
+    </div>
+</div>
+
