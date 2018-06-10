@@ -39,7 +39,6 @@
             services.AddTransient<IAuthorizationHandler, BlogAdminHandler>();
             services.AddTransient<IAuthorizationHandler, BlogAuthorHandler>();
             services.AddTransient<IAuthorizationHandler, BlogModeratorHandler>();
-            //services.AddTransient<IAuthorizationHandler, BlogAnonymousHandler>();
             services.AddTransient<IAuthorizationHandler, BlogFreezeHandler>();
 
             services.Configure<Roles>(options => Configuration.GetSection("Roles").Bind(options));
