@@ -11,10 +11,7 @@
     {
         private readonly IEnumerable<string> _domains;
 
-        public DomainRestrictionRequirement(IEnumerable<string> domains)
-        {
-            _domains = domains;
-        }
+        public DomainRestrictionRequirement(IEnumerable<string> domains) => _domains = domains;
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, 
             DomainRestrictionRequirement requirement)

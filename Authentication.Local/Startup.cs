@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using Authentication.Local.Infrastructure.Constants;
-    using Authentication.Local.Infrastructure.Security.Handlers;
     using Authentication.Local.Models;
     using Infrastructure.Security;
     using Microsoft.AspNetCore.Authentication;
@@ -24,6 +23,7 @@
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var authSettings = Configuration.GetSection("AuthSettings");
             var appSetting = Configuration.GetSection("Settings");
             services.AddSyrxSqlServer(appSetting);
 
@@ -41,7 +41,10 @@
             services.AddTransient<IAuthorizationHandler, BlogModeratorHandler>();
             //services.AddTransient<IAuthorizationHandler, BlogAnonymousHandler>();
             services.AddTransient<IAuthorizationHandler, BlogFreezeHandler>();
+
             services.Configure<Roles>(options => Configuration.GetSection("Roles").Bind(options));
+            services.Configure<Roles>(options => Configuration.GetSection("Account").Bind(options));
+            services.Configure<AuthSettings>(options => authSettings.Bind(options));
 
             services.AddMvc();
 
@@ -60,8 +63,8 @@
 
             services.AddAuthorization(options =>
             {
-                var domains = Configuration.GetSection("Policies:Domains").Get<List<string>>();
-                var minimumAge = Configuration.GetSection("Policies:Age").Get<int>();
+                var domains = authSettings.GetSection("Domains").Get<List<string>>();
+                var minimumAge = authSettings.GetSection("Age").Get<int>();
 
                 options.DefaultPolicy =
                     new AuthorizationPolicyBuilder(CookieAuthenticationDefaults.AuthenticationScheme)

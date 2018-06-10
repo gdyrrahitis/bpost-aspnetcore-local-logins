@@ -7,14 +7,14 @@
 
     public class BlogAdminHandler : AuthorizationHandler<BlogAccessRequirement>
     {
-        private readonly IOptions<Roles> _options;
+        private readonly Roles _roles;
 
-        public BlogAdminHandler(IOptions<Roles> options) => _options = options;
+        public BlogAdminHandler(IOptions<Roles> options) => _roles = options.Value;
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
             BlogAccessRequirement requirement)
         {
-            if (context.User.IsInRole(_options.Value.Admin))
+            if (context.User.IsInRole(_roles.Admin))
             {
                 context.Succeed(requirement);
             }

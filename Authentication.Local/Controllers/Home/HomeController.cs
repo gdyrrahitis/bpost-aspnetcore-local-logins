@@ -1,18 +1,16 @@
 ﻿namespace Authentication.Local.Controllers.Home
 {
-    using System.Collections.Generic;
-    using System.Diagnostics;
+    using Authentication.Local.Models;
     using Infrastructure.Constants;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Configuration;
-    using Models;
+    using Microsoft.Extensions.Options;
 
     public class HomeController : Controller
     {
-        private readonly IConfiguration _configuration;
+        private readonly AuthSettings _settings;
 
-        public HomeController(IConfiguration configuration) => _configuration = configuration;
+        public HomeController(IOptions<AuthSettings> options) => _settings = options.Value;
 
         public IActionResult Index() => View();
 
@@ -32,7 +30,7 @@
         [Route("protected")]
         public IActionResult Protected()
         {
-            ViewBag.AgeRestriction = _configuration.GetSection("Policies:Age").Get<int>();
+            ViewBag.AgeRestriction = _settings.Age;
             return View();
         }
 
@@ -40,8 +38,7 @@
         [Route("domain")]
         public IActionResult Domain()
         {
-            ViewBag.DomainRestriction = _configuration.GetSection("Policies:Domains")
-                .Get<List<string>>();
+            ViewBag.DomainRestriction = _settings.Domains;
             return View();
         }
 

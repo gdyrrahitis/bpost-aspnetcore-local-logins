@@ -8,6 +8,7 @@
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.Options;
     using Models;
     using Services;
 
@@ -15,13 +16,12 @@
     public class AuthController : Controller
     {
         private readonly IUserService _userService;
-        private readonly IConfiguration _configuration;
+        private readonly IOptions<LogoutPrompt> _options;
 
-        public AuthController(IUserService userService,
-            IConfiguration configuration)
+        public AuthController(IUserService userService, IOptions<LogoutPrompt> options)
         {
             _userService = userService;
-            _configuration = configuration;
+            _options = options;
         }
 
         [Route("login")]
@@ -86,7 +86,7 @@
         {
             ViewBag.ReturnUrl = returnUrl;
 
-            if (!_configuration.GetValue<bool>("Account:ShowLogoutPrompt"))
+            if (!_options.Value.ShowLogoutPrompt)
             {
                 return await Logout();
             }

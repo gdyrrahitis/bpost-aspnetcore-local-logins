@@ -9,10 +9,7 @@
     {
         private readonly int _minimumAge;
 
-        public AgeRestrictionRequirement(int minimumAge)
-        {
-            _minimumAge = minimumAge;
-        }
+        public AgeRestrictionRequirement(int minimumAge) => _minimumAge = minimumAge;
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, 
             AgeRestrictionRequirement requirement)
