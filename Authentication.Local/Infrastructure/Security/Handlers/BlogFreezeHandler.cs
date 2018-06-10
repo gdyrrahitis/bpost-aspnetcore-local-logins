@@ -26,10 +26,6 @@
                 {
                     context.Fail();
                 }
-                else
-                {
-                    context.Succeed(requirement);
-                }
             }
             catch (Exception)
             {

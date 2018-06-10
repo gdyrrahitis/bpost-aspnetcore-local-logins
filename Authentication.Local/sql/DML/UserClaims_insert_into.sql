@@ -8,7 +8,10 @@ begin try
 				(2,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/country', 'USA', 'http://www.w3.org/2001/XMLSchema#string'),
 				
 				(3,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/gender', 'Male', 'http://www.w3.org/2001/XMLSchema#string'),
-				(3,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/country', 'Greece', 'http://www.w3.org/2001/XMLSchema#string');
+				(3,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/country', 'Greece', 'http://www.w3.org/2001/XMLSchema#string'),
+
+				(4,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/gender', 'Male', 'http://www.w3.org/2001/XMLSchema#string'),
+				(4,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/country', 'USA', 'http://www.w3.org/2001/XMLSchema#string');
 	commit transaction;
 end try
 begin catch

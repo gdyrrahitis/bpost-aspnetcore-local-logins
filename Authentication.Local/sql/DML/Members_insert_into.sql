@@ -3,7 +3,8 @@ begin try
 		insert into [dbo].[members]
 		values ('johndoe', 'Admin', 0),
 			   ('janedoe', 'Author', 0),
-			   ('dyrra', 'Moderator', 1);
+			   ('dyrra', 'Moderator', 1),
+			   ('davedoe', 'Guest', 0);
 	commit transaction;
 end try
 begin catch
