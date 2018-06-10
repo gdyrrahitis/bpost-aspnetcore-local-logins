@@ -42,7 +42,7 @@
             services.AddTransient<IAuthorizationHandler, BlogFreezeHandler>();
 
             services.Configure<Roles>(options => Configuration.GetSection("Roles").Bind(options));
-            services.Configure<Roles>(options => Configuration.GetSection("Account").Bind(options));
+            services.Configure<LogoutPrompt>(options => Configuration.GetSection("Account").Bind(options));
             services.Configure<AuthSettings>(options => authSettings.Bind(options));
 
             services.AddMvc();
