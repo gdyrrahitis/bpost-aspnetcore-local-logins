@@ -1,2 +1,2 @@
 # ASP.NET Core 2.0 Cookie Authentication on local logins
-https://wp.me/p7uERY-85
+Related blog post can be found [here](http://codereform.com/blog/post/asp-net-core-2-0-cookie-authentication-local-logins/)
